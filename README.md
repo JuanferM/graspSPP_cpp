@@ -1,5 +1,5 @@
-# metaSPP_cpp
-Heuristique de construction et recherche locale pour le Set Packing Problem (SPP)
+# graspSPP_cpp
+GRASP pour le Set Packing Problem (SPP)
 
 *Commande pour compiler*:
 ```bash
@@ -8,7 +8,7 @@ make clean && make
 
 *Commande pour lancer le programme*:
 ```bash
-./bin/DM1
+./bin/DM2
 ```
 
 **ATTENTION:** le répertoire `instances` doit se trouver dans le même répertoire
