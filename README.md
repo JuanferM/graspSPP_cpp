@@ -60,4 +60,3 @@ Sinon pour ne recevoir que les messages normaux :
 * pb_500rnd0700.dat
 * pb_1000rnd0100.dat
 * pb_1000rnd0500.dat
->>>>>>> refs/remotes/origin/master
