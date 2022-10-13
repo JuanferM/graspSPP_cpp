@@ -1,14 +1,12 @@
 #include "librarySPP.hpp"
 #include <string>
 
-std::set<std::string> getfname(
-        std::string pathtofolder,
-        std::ostream** IO) {
+std::set<std::string> getfname(std::string pathtofolder) {
     std::set<std::string> files;
     // Get all files from folder
     std::filesystem::directory_iterator dir(pathtofolder);
 
-    m_print(*IO[0], "Loading instances...\n");
+    m_print(std::cout, "Loading instances...\n");
     for(const auto &file : dir) {
         std::filesystem::path p(file.path());
         // Get filename
@@ -17,12 +15,11 @@ std::set<std::string> getfname(
         // Not a hidden file
         if(f[0] != '.') {
             files.insert(f);
-            if(!IO) std::cout << "fname = " << f << std::endl;
-            else m_print(*IO[0], "fname = ", f, "\n");
+            m_print(std::cout, "fname = ", f, "\n");
         }
     }
 
-    m_print(*IO[0], "DONE!\n");
+    m_print(std::cout, "DONE!\n");
 
     return files;
 }
@@ -65,7 +62,6 @@ std::tuple<int, int, int*, char*, float*> loadSPP(std::string fname)
 void modelSPP(
         std::string instance,
         std::string path,
-        std::ostream** IO,
         float* tt,
         bool verbose) {
     int z(-1), m(-1), n(-1), ne(0), j(0), i(0);
@@ -102,7 +98,7 @@ void modelSPP(
         std::cerr << "ERROR: " << e.what() << std::endl;
     }
 
-    m_print(*IO[0], _CLB, "\nInstance : ", instance, "\n\n", _CLR);
+    m_print(std::cout, _CLB, "\nInstance : ", instance, "\n\n", _CLR);
 
     /* Create problem */
     glp_prob *lp = glp_create_prob();
@@ -135,7 +131,7 @@ void modelSPP(
 
     TIMED(t, glp_intopt(lp, &parm)); (*tt) += t;
     z = glp_mip_obj_val(lp);
-    m_print(*IO[0], _CLG, "Résolue en ", t, " secondes. z_opt = ", z, "\n", _CLR);
+    m_print(std::cout, _CLG, "Résolue en ", t, " secondes. z_opt = ", z, "\n", _CLR);
 
     /* Free problem and arrays */
     glp_delete_prob(lp);
@@ -148,7 +144,6 @@ bool isFeasible(
         const int *C,
         const char *A,
         const char *x,
-        std::ostream** IO,
         const char* extColumn,
         bool verbose) {
     bool feasible = true;
@@ -173,7 +168,7 @@ bool isFeasible(
 
     if(verbose) {
         // m_assert(feasible, "No feasible solution detected");
-        m_print(*IO[0], _CLG, "Feasible : yes | Σ(x_i) = ", sum_xi, " ; z(x) = ", z, "\n", _CLR);
+        m_print(std::cout, _CLG, "Feasible : yes | Σ(x_i) = ", sum_xi, " ; z(x) = ", z, "\n", _CLR);
     }
 
     if(!extColumn) delete[] column;

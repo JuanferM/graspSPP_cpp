@@ -15,7 +15,7 @@ bool zero_oneExchange(
         x[i] = 1; tmp_z = *z + C[i];
         if(tmp_z > best_z) {
             for(c = 0; c < m && column; c++) column[c] += A[INDEX(i, c)];
-            if(isFeasible(m, n, C, A, x, nullptr, column, false)) {
+            if(isFeasible(m, n, C, A, x, column, false)) {
                 if(deep) {
                     best_z = tmp_z; best_move = i;
                 }
@@ -57,7 +57,7 @@ bool one_oneExchange(
                 if(tmp_z > best_z) {
                     for(c = 0; c < m && column; c++)
                         column[c] += A[INDEX(j, c)] - A[INDEX(i, c)];
-                    if(isFeasible(m, n, C, A, x, nullptr, column, false)) {
+                    if(isFeasible(m, n, C, A, x, column, false)) {
                         if(deep)
                             best_z = tmp_z, best_move = std::make_tuple(i, j);
                         else return (*z = tmp_z);
@@ -119,7 +119,7 @@ void combinations(
                         column[c] +=  A[INDEX(k, c)]
                                     - A[INDEX(pair_of_1[0], c)]
                                     - A[INDEX(pair_of_1[1], c)];
-                    if(isFeasible(m, n, C, A, x, nullptr, column, false)) {
+                    if(isFeasible(m, n, C, A, x, column, false)) {
                         if(deep) {
                             *best_z = depth;
                             best_move = std::make_tuple(pair_of_1[0],

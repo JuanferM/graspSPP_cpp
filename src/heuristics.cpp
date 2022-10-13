@@ -1,7 +1,7 @@
 #include "heuristics.hpp"
+#include <algorithm>
 
 std::tuple<char*, int, char*> GreedyRandomized(
-        std::ostream* io[],
         int m,
         int n,
         const int* C,
@@ -60,18 +60,16 @@ std::tuple<char*, int, char*> GreedyRandomized(
     return std::make_tuple(x, dot(n, x, C), column);
 }
 
-std::tuple<char*, int> GreedyImprovement(
-        std::ostream* io[],
+void GreedyImprovement(
         int m,
         int n,
         const int* C,
         const char* A,
-        const char* x,
-        int zInit,
+        char* x,
+        int* z,
         bool deep,
         char* column) {
-    int i(2), t(1), nz(zInit);
-    char *nx = new char[n];
+    int i(2), t(1);
     char names[3][4] = { "0-1", "1-1", "2-1" };
     bool printed[3] = { false },
         (*f[3])(int, int, const int*, const char*, char*, int*, bool, char*) = {
@@ -80,18 +78,49 @@ std::tuple<char*, int> GreedyImprovement(
             two_oneExchange
         };
 
-    // nx is a deep copy of x at first. With each k-p exchange we search
-    // the neighborhood of nx. If a neighbor with a better value for z is
-    // found then we replace nx by that neighbor and we keep applying the
-    // same k-p exchange on nx. If the k-p exchange fail to find a neighbor that
-    // improves z then we select another k-p exchange and we repeat the process.
-    memcpy(nx, x, sizeof(char) * n);
+    // We modify x and z directly (no copy)
     while(i >= 0) {
-        t = f[i](m, n, C, A, nx, &nz, deep, column);
+        t = f[i](m, n, C, A, x, z, deep, column);
         if(!printed[i])
-            m_print(*io[0], "\n > ", names[i], " : "), printed[i] = true;
-        if(t) m_print(*io[0], "x"); else i--;
+            m_print(std::cout, "\n > ", names[i], " : "), printed[i] = true;
+        if(t) m_print(std::cout, "x"); else i--;
+    }
+}
+
+std::tuple<int*, int*, int*, float*> GRASP(
+        int m,
+        int n,
+        const int* C,
+        const char* A,
+        const float* U,
+        float alpha,
+        int nbIter,
+        bool deep) {
+    INIT_TIMER();
+    int iter(0), zBest(-1);
+    int *zInits(nullptr), *zAmels(nullptr), *zBests(nullptr);
+    char *x(nullptr), *column(nullptr);
+    float *times(nullptr);
+
+    // Allocations
+    zInits = new int[nbIter]; zAmels = new int[nbIter];
+    times = new float[nbIter];
+
+    for(iter = 0; iter < nbIter; iter++) {
+        TIMED(times[iter],
+            std::tie(x, zInits[iter], column) = GreedyRandomized(m, n, C, A, U, alpha);
+            zAmels[iter] = zInits[iter];
+            GreedyImprovement(m, n, C, A,
+                    x, zAmels[iter], deep, column);
+
+            zBest = std::max(zBest, zAmels[iter]);
+            zBests[iter] = zBest;
+        );
+
+        /* MOST IMPORTANT SECTION */
+        if(x) delete[] x, x = nullptr;
+        if(column) delete[] column, column = nullptr;
     }
 
-    return std::make_tuple(nx, nz);
+    return std::make_tuple(zInits, zAmels, zBests, times);
 }

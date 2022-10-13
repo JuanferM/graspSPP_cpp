@@ -8,7 +8,6 @@
 
 // Greedy construction of a feasible solution
 std::tuple<char*, int, char*> GreedyRandomized(
-        std::ostream* io[],
         int m,
         int n,
         const int* C,
@@ -17,15 +16,28 @@ std::tuple<char*, int, char*> GreedyRandomized(
         float alpha);
 
 // Greedy improvement of a feasible solution through (deep) local search
-std::tuple<char*, int> GreedyImprovement(
-        std::ostream* io[],
+void GreedyImprovement(
         int m,
         int n,
         const int* C,
         const char* A,
-        const char* x,
-        int zInit,
+        char* x,
+        int z,
         bool deep = true,
         char* column = nullptr);
+
+// GRASP for the Set Packing Problem
+// returns the scores of greedy randomized and
+// greedy improvement for each iteration.
+// Also returns the elapsed time of each iteration.
+std::tuple<int*, int*, int*, float*> GRASP(
+        int m,
+        int n,
+        const int* C,
+        const char* A,
+        const float* U,
+        float alpha = 0.7,
+        int nbIter = 100,
+        bool deep = true);
 
 #endif /* end of include guard: HEURISTICS_H */

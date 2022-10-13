@@ -49,9 +49,7 @@
 #define _CLP     "\033[1;35m"
 
 // Collect the unhidden filenames available in a given folder
-std::set<std::string> getfname(
-        std::string pathtofolder,
-        std::ostream** IO = nullptr);
+std::set<std::string> getfname(std::string pathtofolder);
 
 // Reads  fname  and returns :
 //  *  m  the number of constraints
@@ -65,7 +63,6 @@ std::tuple<int, int, int*, char*, float*> loadSPP(std::string fname);
 void modelSPP(
         std::string fname,
         std::string path = "",
-        std::ostream** IO = nullptr,
         float* tt = nullptr,
         bool verbose = true);
 
@@ -78,7 +75,6 @@ bool isFeasible(
         const int* C,
         const char* A,
         const char* x,
-        std::ostream** IO = nullptr,
         const char* extColumn = nullptr,
         bool verbose = true);
 
