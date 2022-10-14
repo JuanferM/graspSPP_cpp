@@ -1,3 +1,4 @@
+#include "graspPlots.hpp"
 #include "heuristics.hpp"
 
 #define USE_GLPK        false
@@ -13,10 +14,13 @@ int main() {
     std::cout.precision(6);
 
     #if !USE_GLPK
+        INIT_TIMER();
         float *U(nullptr), *times(nullptr);
         char *A(nullptr);
-        int m(-1), n(-1), *C(nullptr);
-        int *zInits(nullptr), *zAmels(nullptr), *zBests(nullptr);
+        int i(0), m(-1), n(-1), *C(nullptr);
+        std::vector<int> zInits(NUM_ITER, 0),
+                         zAmels(NUM_ITER, 0),
+                         zBests(NUM_ITER, 0);
     #endif
 
     m_print(std::cout, _CLRd, "Etudiants : MERCIER et PICHON\n", _CLR);
@@ -25,22 +29,22 @@ int main() {
         #if USE_GLPK
             modelSPP(instance, path, &tt, VERBOSE_GLPK);
         #else
+            if(times == nullptr) times = new float[fnames.size()];
             // Load one numerical instance
             std::tie(m, n, C, A, U) = loadSPP(path + instance);
             m_print(std::cout, _CLB, "\n\nInstance : ", instance, "\n\n", _CLR);
-            std::tie(zInits, zAmels, zBests, times) = GRASP(m, n, C, A, U, ALPHA, NUM_ITER, DEEPSEARCH);
+            TIMED(times[i],
+                GRASP(m, n, C, A, U, zInits, zAmels, zBests, ALPHA, NUM_ITER, DEEPSEARCH);
+            ); i++;
 
             // Plots
-
+            plotRunGRASP(instance, zInits, zAmels, zBests);
 
             /* MOST IMPORTANT SECTIONS */
             freeSPP(C, A, U);
-            if(zInits) delete[] zInits, zInits = nullptr;
-            if(zAmels) delete[] zAmels, zAmels = nullptr;
-            if(zBests) delete[] zBests, zBests = nullptr;
-            if(times) delete[] times, times = nullptr;
         #endif
     }
+
 
     glp_free_env();
     return 0;

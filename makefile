@@ -5,7 +5,7 @@ SRC_DIR := src
 # OBJ_DIR specifies the object directory
 OBJ_DIR := obj
 # INC_DIR specifies the include directories
-INC_DIR := include
+INC_DIR := include include/matplot
 
 # EXE specifies the name of the executable
 EXE := $(BIN_DIR)/DM2

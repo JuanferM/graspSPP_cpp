@@ -27,15 +27,15 @@ void GreedyImprovement(
         char* column = nullptr);
 
 // GRASP for the Set Packing Problem
-// returns the scores of greedy randomized and
-// greedy improvement for each iteration.
-// Also returns the elapsed time of each iteration.
-std::tuple<int*, int*, int*, float*> GRASP(
+void GRASP(
         int m,
         int n,
         const int* C,
         const char* A,
         const float* U,
+        std::vector<int>& zInits,
+        std::vector<int>& zAmels,
+        std::vector<int>& zBests,
         float alpha = 0.7,
         int nbIter = 100,
         bool deep = true);

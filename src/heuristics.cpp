@@ -87,40 +87,33 @@ void GreedyImprovement(
     }
 }
 
-std::tuple<int*, int*, int*, float*> GRASP(
+void GRASP(
         int m,
         int n,
         const int* C,
         const char* A,
         const float* U,
+        std::vector<int>& zInits,
+        std::vector<int>& zAmels,
+        std::vector<int>& zBests,
         float alpha,
         int nbIter,
         bool deep) {
-    INIT_TIMER();
-    int iter(0), zBest(-1);
-    int *zInits(nullptr), *zAmels(nullptr), *zBests(nullptr);
+    int iter(0);
+    int zBest(-1);
     char *x(nullptr), *column(nullptr);
-    float *times(nullptr);
-
-    // Allocations
-    zInits = new int[nbIter]; zAmels = new int[nbIter];
-    times = new float[nbIter];
 
     for(iter = 0; iter < nbIter; iter++) {
-        TIMED(times[iter],
-            std::tie(x, zInits[iter], column) = GreedyRandomized(m, n, C, A, U, alpha);
-            zAmels[iter] = zInits[iter];
-            GreedyImprovement(m, n, C, A,
-                    x, zAmels[iter], deep, column);
+        std::tie(x, zInits[iter], column) = GreedyRandomized(m, n, C, A, U, alpha);
+        zAmels[iter] = zInits[iter];
+        GreedyImprovement(m, n, C, A,
+                x, &zAmels[iter], deep, column);
 
-            zBest = std::max(zBest, zAmels[iter]);
-            zBests[iter] = zBest;
-        );
+        zBest = std::max(zBest, zAmels[iter]);
+        zBests[iter] = zBest;
 
         /* MOST IMPORTANT SECTION */
         if(x) delete[] x, x = nullptr;
         if(column) delete[] column, column = nullptr;
     }
-
-    return std::make_tuple(zInits, zAmels, zBests, times);
 }
