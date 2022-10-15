@@ -47,8 +47,6 @@ fichier `src/main.cpp`) :
 #define ALPHA <x>
 ```
 Où _x_ est un flottant entre 0 et 1.
-Pour effectuer des améliorations par recherche locale de type plus profonde descente
-veuillez redéfinir DEEPSEARCH (macro dans le fichier `src/main.cpp`) à true :
 #### Nombre d'itérations
 Pour modifier le nombre d'itérations veuillez redéfinir NUM_ITER (macro dans le
 fichier `src/main.cpp`) :
@@ -57,6 +55,8 @@ fichier `src/main.cpp`) :
 ```
 Où _x_ est un nombre entier strictement positif.
 #### (Plus profonde) descente
+Pour effectuer des améliorations par recherche locale de type plus profonde descente
+veuillez redéfinir DEEPSEARCH (macro dans le fichier `src/main.cpp`) à true :
 ```c
 #define DEEPSEARCH true
 ```
