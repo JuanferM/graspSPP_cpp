@@ -69,21 +69,16 @@ void GreedyImprovement(
         int* z,
         bool deep,
         char* column) {
-    int i(2), t(1);
-    char names[3][4] = { "0-1", "1-1", "2-1" };
-    bool printed[3] = { false },
-        (*f[3])(int, int, const int*, const char*, char*, int*, bool, char*) = {
+    int i(2);
+    bool (*f[3])(int, int, const int*, const char*, char*, int*, bool, char*) = {
             zero_oneExchange,
             one_oneExchange,
             two_oneExchange
         };
 
     // We modify x and z directly (no copy)
-    while(i >= 0) {
-        t = f[i](m, n, C, A, x, z, deep, column);
-        if(!printed[i])
-            m_print(std::cout, "\n > ", names[i], " : "), printed[i] = true;
-        if(t) m_print(std::cout, "x"); else i--;
+    while(i >= 0){
+        if(!f[i](m, n, C, A, x, z, deep, column)) i--;
     }
 }
 

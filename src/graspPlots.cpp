@@ -8,7 +8,7 @@ void plotRunGRASP(
     int i(0), n = zInits.size();
     std::vector<int> X(n);
     std::iota(std::begin(X), std::end(X), 0);
-    std::string tit("GRASP-SPP | z_Init z_LS z_Best | " + instance);
+    std::string tit("GRASP-SPP | z_{Init} z_{LS} z_{Best} | " + instance);
 
     auto fig = matplot::figure(true);
     fig->name("Examen d'un run");
@@ -40,7 +40,7 @@ void plotRunGRASP(
     for(i = 0; i < n; i++)
         matplot::line(i, zInits[i], i, zAmels[i])
             ->line_width(0.5);
-    matplot::legend()
-        ->location(matplot::legend::general_alignment::bottomright);
+    // matplot::legend()
+    //     ->location(matplot::legend::general_alignment::bottomright);
     matplot::show();
 }

@@ -17,17 +17,6 @@ doit être dans `bin`. Pour utiliser le makefile les répertoires `bin`, `includ
 `src` et `obj` doivent être présents.
 
 
-### Descente/Plus profonde descente
-Pour effectuer des améliorations par recherche locale de type plus profonde descente
-veuillez redéfinir DEEPSEARCH (macro dans le fichier `src/main.cpp`) à true :
-```c
-#define DEEPSEARCH true
-```
-Sinon pour des descentes normales :
-```c
-#define DEEPSEARCH false
-```
-
 ### GLPK
 Pour lancer GLPK sur les instances veuillez redéfinir USE_GLPK (macro dans le
 fichier `src/main.cpp`) à true :
@@ -47,6 +36,33 @@ le fichier `src/main.cpp`) à true :
 Sinon pour ne recevoir que les messages normaux :
 ```c
 #define VERBOSE_GLPK false
+```
+
+
+### Paramètres du GRASP
+#### Alpha
+Pour modifier la valeur de alpha veuillez redéfinir ALPHA (macro dans le
+fichier `src/main.cpp`) :
+```c
+#define ALPHA <x>
+```
+Où _x_ est un flottant entre 0 et 1.
+Pour effectuer des améliorations par recherche locale de type plus profonde descente
+veuillez redéfinir DEEPSEARCH (macro dans le fichier `src/main.cpp`) à true :
+#### Nombre d'itérations
+Pour modifier le nombre d'itérations veuillez redéfinir NUM_ITER (macro dans le
+fichier `src/main.cpp`) :
+```c
+#define NUM_ITER <x>
+```
+Où _x_ est un nombre entier strictement positif.
+#### (Plus profonde) descente
+```c
+#define DEEPSEARCH true
+```
+Sinon pour des descentes normales :
+```c
+#define DEEPSEARCH false
 ```
 
 ### Listes des instances qui ont été utilisées pour l'expérimentation
