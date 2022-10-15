@@ -1,4 +1,4 @@
-#include "graspPlots.hpp"
+#include "plots.hpp"
 #include "heuristics.hpp"
 
 #define USE_GLPK        false
@@ -32,19 +32,19 @@ int main() {
             if(times == nullptr) times = new float[fnames.size()];
             // Load one numerical instance
             std::tie(m, n, C, A, U) = loadSPP(path + instance);
-            m_print(std::cout, _CLB, "\n\nInstance : ", instance, "\n\n", _CLR);
+            m_print(std::cout, _CLB, "\nInstance : ", instance, "\n", _CLR);
             TIMED(times[i],
                 GRASP(m, n, C, A, U, zInits, zAmels, zBests, ALPHA, NUM_ITER, DEEPSEARCH);
             ); i++;
 
             // Plots
+            m_print(std::cout, "Plot du run...\n");
             plotRunGRASP(instance, zInits, zAmels, zBests);
 
             /* MOST IMPORTANT SECTIONS */
             freeSPP(C, A, U);
         #endif
     }
-
 
     glp_free_env();
     return 0;

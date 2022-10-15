@@ -1,4 +1,4 @@
-#include "graspPlots.hpp"
+#include "plots.hpp"
 
 void plotRunGRASP(
         std::string instance,
@@ -42,5 +42,5 @@ void plotRunGRASP(
             ->line_width(0.5);
     // matplot::legend()
     //     ->location(matplot::legend::general_alignment::bottomright);
-    matplot::show();
+    matplot::show(fig);
 }
