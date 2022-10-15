@@ -47,6 +47,6 @@ int main() {
     }
 
     glp_free_env();
-    if(times) delete[] times; times = nullptr;
+    if(times) delete[] times, times = nullptr;
     return 0;
 }
