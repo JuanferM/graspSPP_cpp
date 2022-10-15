@@ -7,7 +7,7 @@ void plotRunGRASP(
         std::vector<int>& zBests) {
     int i(0), n = zInits.size();
     std::vector<int> X(n);
-    std::iota(std::begin(X), std::end(X), 0);
+    std::iota(std::begin(X), std::end(X), 1);
     std::string tit("GRASP-SPP | z_{Init} z_{LS} z_{Best} | " + instance);
 
     auto fig = matplot::figure(true);
@@ -37,7 +37,7 @@ void plotRunGRASP(
         .color("red")
         .marker(".")
         .display_name("toutes solutions construites");
-    for(i = 0; i < n; i++)
+    for(i = 1; i < n; i++)
         matplot::line(i, zInits[i], i, zAmels[i])
             ->line_width(0.5);
     // matplot::legend()
