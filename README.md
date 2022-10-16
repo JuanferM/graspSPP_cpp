@@ -16,6 +16,19 @@ d'où le programme est lancé. Si le programme est lancé depuis `bin` alors `in
 doit être dans `bin`. Pour utiliser le makefile les répertoires `bin`, `include`,
 `src` et `obj` doivent être présents.
 
+### Dépendances et standard C++ utilisé
+Le standard C++ utilisé dans ce projet est le C++20, assurez-vous d'avoir une version
+de g++ supportant ce standard.
+
+Il est possible de résoudre les instances avec GLPK, assurez-vous d'avoir GLPK
+installé sur votre machine (l'installation de la bibliothèque libglpk-dev est 
+fortement recommandée).
+
+Pour générer les plots, nous utilisons une version modifiée de la bibliothèque Matplot++
+(https://alandefreitas.github.io/matplotplusplus/) qui a besoin des dépendances
+suivantes : gnuplot (version 5.2.6+) et libx11-dev. La bibliothèque utilise aussi
+d'autres dépendances mais la bibliothèque dynamique libmatplot.so (répertoire `lib`)
+comporte tous le nécessaire pour compiler Matplot++.
 
 ### GLPK
 Pour lancer GLPK sur les instances veuillez redéfinir USE_GLPK (macro dans le
