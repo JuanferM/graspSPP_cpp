@@ -1,23 +1,22 @@
 #ifndef LIBRARYSPP_H
 #define LIBRARYSPP_H
 
-#include <set>
-#include <unordered_set>
 #include <tuple>
 #include <string>
 #include <chrono>
+#include <random>
 #include <climits>
 #include <numeric>
 #include <iterator>
 #include <algorithm>
-#include <filesystem>
-#include <iostream>
 #include <fstream>
 #include <sstream>
+#include <iostream>
+#include <filesystem>
+#include <cassert>
 #include <exception>
 #include <stdexcept>
-#include <cassert>
-#include <random>
+#include <unordered_set>
 
 #include <glpk.h>
 
@@ -49,7 +48,7 @@
 #define _CLP     "\033[1;35m"
 
 // Collect the unhidden filenames available in a given folder
-std::set<std::string> getfname(std::string pathtofolder);
+std::vector<std::string> getfname(std::string pathtofolder);
 
 // Reads  fname  and returns :
 //  *  m  the number of constraints
@@ -111,8 +110,9 @@ void m_print(std::ostream& out);
 
 template<typename T, typename... Args>
 void m_print(std::ostream& out, T t, Args... args) {
-    out << std::fixed << t;
+    out << std::fixed << t; out.flush();
     if(sizeof...(args) != 0) m_print(out, args...);
+    out.flush();
 }
 
 /* Functions from answer at https://stackoverflow.com/a/16421677 */

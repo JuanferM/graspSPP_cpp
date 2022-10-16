@@ -1,8 +1,8 @@
 #include "librarySPP.hpp"
 #include <string>
 
-std::set<std::string> getfname(std::string pathtofolder) {
-    std::set<std::string> files;
+std::vector<std::string> getfname(std::string pathtofolder) {
+    std::vector<std::string> files;
     // Get all files from folder
     std::filesystem::directory_iterator dir(pathtofolder);
 
@@ -14,7 +14,7 @@ std::set<std::string> getfname(std::string pathtofolder) {
 
         // Not a hidden file
         if(f[0] != '.') {
-            files.insert(f);
+            files.push_back(f);
             m_print(std::cout, "fname = ", f, "\n");
         }
     }

@@ -8,11 +8,28 @@
 #include <matplot/matplot.h>
 #include <matplot/util/common.h>
 
-// Plot l'examen d'un run de GRASP
+// Plot l'examen d'un run de GRASP sur
+// une instance
 void plotRunGRASP(
-        std::string instance,
-        std::vector<int>& zInits,
-        std::vector<int>& zAmels,
-        std::vector<int>& zBests);
+        const std::string instance,
+        const std::vector<int>& zInits,
+        const std::vector<int>& zAmels,
+        const std::vector<int>& zBests);
+
+// Plot le bilan de tous les runs de GRASP
+// sur une instance (plot exactement NUM_DIVISION
+// points avec NUM_DIVISION <= NUM_ITER)
+void plotAnalyseGRASP(
+        const std::string instance,
+        const std::vector<double>& divs,
+        const std::vector<int> zMin,
+        const std::vector<int> zMoy,
+        const std::vector<int> zMax);
+
+// Plot le bilan CPUt pour chaque instance (le
+// temps d'exécution moyen d'un run)
+void plotCPUt(
+        std::vector<std::string> fnames,
+        std::vector<float> tMoy);
 
 #endif /* end of include guard: GRASPPLOTS_H */

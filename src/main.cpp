@@ -4,8 +4,10 @@
 #define USE_GLPK        false
 #define VERBOSE_GLPK    false
 
-#define ALPHA           0.5
-#define NUM_ITER        100
+#define ALPHA           0.7
+#define NUM_RUN         30
+#define NUM_ITER        200
+#define NUM_DIVISION    10
 #define DEEPSEARCH      true
 
 int main() {
@@ -15,42 +17,87 @@ int main() {
 
     m_print(std::cout, _CLRd, "Etudiants : MERCIER et PICHON\n", _CLR);
     #if !USE_GLPK
+        const int _NBD_ = NUM_DIVISION%NUM_ITER ? NUM_DIVISION%NUM_ITER : 1;
+        m_print(std::cout, _CLP, "\nalpha\t\t\t= ", ALPHA);
+        m_print(std::cout, "\nnombre de runs\t\t= ", NUM_RUN);
+        m_print(std::cout, "\nnombre d'itérations\t= ", NUM_ITER);
+        m_print(std::cout, "\ndescente profonde\t: ", (DEEPSEARCH ? "oui" : "non"));
+        m_print(std::cout, "\nplot des runs en \t: ", _NBD_, " points\n\n", _CLR);
+
         INIT_TIMER();
-        float *U(nullptr), *times(nullptr);
+        float t(0), *U(nullptr);
         char *A(nullptr);
-        int i(0), m(-1), n(-1), *C(nullptr);
+        int ins(0), run(0), div(0), m(-1), n(-1), *C(nullptr);
         std::vector<int> zInits(NUM_ITER, 0),
                          zAmels(NUM_ITER, 0),
-                         zBests(NUM_ITER, 0);
-
-        m_print(std::cout, _CLP, "\nalpha\t\t\t= ", ALPHA);
-        m_print(std::cout, "\nnombre d'itérations\t= ", NUM_ITER);
-        m_print(std::cout, "\ndescente profonde\t= ", (DEEPSEARCH ? "oui" : "non"), _CLR, "\n\n");
+                         zBests(NUM_ITER, 0),
+                         zMin(_NBD_, INT_MAX),
+                         zMoy(_NBD_, 0),
+                         zMax(_NBD_, INT_MIN);
+        std::vector<float> tMoy;
+        auto divs = matplot::transform(
+            matplot::linspace(1, NUM_ITER, _NBD_),
+            [](double x) {return (int)x;});
+        if(NUM_ITER-1 == 1) divs[0] = 1;
     #endif
 
-    std::set<std::string> fnames = getfname(path);
+    std::vector<std::string> fnames = getfname(path);
     for(auto instance : fnames) {
         #if USE_GLPK
             modelSPP(instance, path, &tt, VERBOSE_GLPK);
         #else
-            if(times == nullptr) times = new float[fnames.size()];
+            if(tMoy.size() == 0) {
+                for(ins = 0; ins < (int)fnames.size(); ins++)
+                    tMoy.push_back(0);
+                ins = 0;
+            }
+
             // Load one numerical instance
             std::tie(m, n, C, A, U) = loadSPP(path + instance);
             m_print(std::cout, _CLB, "\nInstance : ", instance, "\n", _CLR);
-            TIMED(times[i],
-                GRASP(m, n, C, A, U, zInits, zAmels, zBests, ALPHA, NUM_ITER, DEEPSEARCH);
-            ); i++;
+
+            m_print(std::cout, "Run exécutés :");
+            for(run = 0; run < NUM_RUN; run++) {
+                // Run GRASP NUM_RUN times
+                TIMED(t,
+                    GRASP(m, n, C, A, U, zInits, zAmels, zBests, ALPHA, NUM_ITER, DEEPSEARCH);
+                );
+                tMoy[ins] = (!run) ? t : tMoy[ins]+t;
+                // Compute zMax, zMin and zMoy NUM_DIVISION time
+                for(div = 0; div < _NBD_; div++) {
+                    zMin[div] = std::min(zAmels[divs[div]-1], zMin[div]);
+                    zMax[div] = std::max(zAmels[divs[div]-1], zMax[div]);
+                    zMoy[div] += zAmels[divs[div]-1];
+                }
+                m_print(std::cout, " ", run+1);
+            }
+
+            // Finish computing average z values
+            for(div = 0; div < _NBD_; div++) zMoy[div] /= NUM_RUN;
 
             // Plots
-            m_print(std::cout, "Plot du run...\n");
+            m_print(std::cout, "\nPlot du dernier run...\n");
             plotRunGRASP(instance, zInits, zAmels, zBests);
+            m_print(std::cout, "Bilan de l'ensemble des runs...\n");
+            plotAnalyseGRASP(instance, divs, zMin, zMoy, zMax);
 
             /* MOST IMPORTANT SECTIONS */
             freeSPP(C, A, U);
+            ins++;
         #endif
     }
 
-    glp_free_env();
-    if(times) delete[] times, times = nullptr;
+    #if USE_GLPK
+        glp_free_env();
+    #else
+        // Finish computing average CPUt values
+        for(ins = 0; ins < (int)fnames.size(); ins++)
+            tMoy[ins] /= NUM_RUN;
+
+        // Plots
+        m_print(std::cout, "\n\nBilan CPUt moyen (par run) pour chaque instance...\n");
+        plotCPUt(fnames, tMoy);
+    #endif
+
     return 0;
 }
