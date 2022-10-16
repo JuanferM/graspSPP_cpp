@@ -4,7 +4,9 @@
 #include "librarySPP.hpp"
 
 #include <cmath>
+// Modified version of https://github.com/alandefreitas/matplotplusplus
 #include <matplot/matplot.h>
+#include <matplot/util/common.h>
 
 // Plot l'examen d'un run de GRASP
 void plotRunGRASP(

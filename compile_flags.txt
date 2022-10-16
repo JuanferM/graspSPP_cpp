@@ -2,12 +2,7 @@
 -fpic
 -std=c++20
 -I./include
--I./lib/matplot/
--I./lib/matplot/axes_objects/
--I./lib/matplot/backend/
--I./lib/matplot/core/
--I./lib/matplot/freestanding/
--I./lib/util/
+-I./lib/
 -lglpk
 -lm
 -L/usr/X11R6/lib

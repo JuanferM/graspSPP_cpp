@@ -7,7 +7,7 @@ OBJ_DIR := obj
 # LIB_DIR specifies the external libraries directories
 LIB_DIR := lib
 # INC_DIR specifies the include directories
-INC_DIR := include lib/matplot lib/axes_objects lib/backend lib/core lib/freestanding lib/util
+INC_DIR := include $(LIB_DIR)
 
 # EXE specifies the name of the executable
 EXE := $(BIN_DIR)/DM2

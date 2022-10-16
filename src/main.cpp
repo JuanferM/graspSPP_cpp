@@ -5,7 +5,7 @@
 #define VERBOSE_GLPK    false
 
 #define ALPHA           0.7
-#define NUM_ITER        50
+#define NUM_ITER        200
 #define DEEPSEARCH      true
 
 int main() {
