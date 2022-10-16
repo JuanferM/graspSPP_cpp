@@ -26,9 +26,12 @@ fortement recommandée).
 
 Pour générer les plots, nous utilisons une version modifiée de la bibliothèque Matplot++
 (https://alandefreitas.github.io/matplotplusplus/) qui a besoin des dépendances
-suivantes : gnuplot (version 5.2.6+) et libx11-dev. La bibliothèque utilise aussi
-d'autres dépendances mais la bibliothèque dynamique libmatplot.so (répertoire `lib`)
-comporte tous le nécessaire pour compiler Matplot++.
+suivantes :
+* gnuplot (version 5.2.6+)
+* libx11-dev
+
+La bibliothèque Matplot++ utilise aussi d'autres dépendances mais la bibliothèque dynamique 
+_libmatplot.so_ (répertoire `lib`) comporte tous le nécessaire pour compiler Matplot++.
 
 ### GLPK
 Pour lancer GLPK sur les instances veuillez redéfinir USE_GLPK (macro dans le
@@ -36,12 +39,12 @@ fichier `src/main.cpp`) à true :
 ```c
 #define USE_GLPK true
 ```
-Sinon pour des descentes normales :
+Sinon pour utiliser notre solution :
 ```c
 #define USE_GLPK false
 ```
 
-De plus, pour activer tous les messages de GLPK redéfinir VERBOSE_GLPK (macro dans
+De plus, pour activer tous les messages de GLPK veuillez redéfinir VERBOSE_GLPK (macro dans
 le fichier `src/main.cpp`) à true :
 ```c
 #define VERBOSE_GLPK true
@@ -73,7 +76,7 @@ veuillez redéfinir DEEPSEARCH (macro dans le fichier `src/main.cpp`) à true :
 ```c
 #define DEEPSEARCH true
 ```
-Sinon pour des descentes normales :
+Sinon pour des descentes "normales" :
 ```c
 #define DEEPSEARCH false
 ```
