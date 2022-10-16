@@ -4,8 +4,8 @@
 #define USE_GLPK        false
 #define VERBOSE_GLPK    false
 
-#define ALPHA           0.7
-#define NUM_ITER        200
+#define ALPHA           0.5
+#define NUM_ITER        100
 #define DEEPSEARCH      true
 
 int main() {
@@ -13,6 +13,7 @@ int main() {
     std::string path(pwd + "/instances/");
     std::cout.precision(6);
 
+    m_print(std::cout, _CLRd, "Etudiants : MERCIER et PICHON\n", _CLR);
     #if !USE_GLPK
         INIT_TIMER();
         float *U(nullptr), *times(nullptr);
@@ -21,9 +22,12 @@ int main() {
         std::vector<int> zInits(NUM_ITER, 0),
                          zAmels(NUM_ITER, 0),
                          zBests(NUM_ITER, 0);
+
+        m_print(std::cout, _CLP, "\nalpha\t\t\t= ", ALPHA);
+        m_print(std::cout, "\nnombre d'itérations\t= ", NUM_ITER);
+        m_print(std::cout, "\ndescente profonde\t= ", (DEEPSEARCH ? "oui" : "non"), _CLR, "\n\n");
     #endif
 
-    m_print(std::cout, _CLRd, "Etudiants : MERCIER et PICHON\n", _CLR);
     std::set<std::string> fnames = getfname(path);
     for(auto instance : fnames) {
         #if USE_GLPK
