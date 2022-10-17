@@ -1,6 +1,7 @@
 #ifndef LIBRARYSPP_H
 #define LIBRARYSPP_H
 
+#include <set>
 #include <tuple>
 #include <string>
 #include <chrono>
@@ -16,7 +17,6 @@
 #include <cassert>
 #include <exception>
 #include <stdexcept>
-#include <unordered_set>
 
 #include <glpk.h>
 

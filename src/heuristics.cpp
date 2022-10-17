@@ -1,4 +1,5 @@
 #include "heuristics.hpp"
+#include "librarySPP.hpp"
 #include <algorithm>
 
 std::tuple<char*, int, char*> GreedyRandomized(
@@ -8,55 +9,42 @@ std::tuple<char*, int, char*> GreedyRandomized(
         const char* A,
         const float* U,
         const float alpha) {
-    bool valid;
-    int i(0), j(0), e(0), min_u, max_u;
+    bool valid, *candidate = new bool[n];
+    int i(0), j(0), s(0), e(0);
     float limit(0.0f);
-    std::unordered_set<int> RCL;
-    std::unordered_map<int, char> prohib;
+    std::set<int> RCL;
     char *x = new char[n], *column = new char[m];
-    for(i = 0; i < n; i++) x[i] = 0;
+    for(i = 0; i < n; i++) x[i] = 0, candidate[i] = true;
     for(j = 0; j < m; j++) column[j] = 0;
 
-    while((int)prohib.size() < n) {
-        min_u = INT_MAX, max_u = INT_MIN;
-        // Indices of utilities (get min and max)
-        for(i = 0; i < n; i++) {
-            if(prohib.find(i) == prohib.end() && U[i] > max_u)
-                max_u = U[i];
-            if(prohib.find(i) == prohib.end() && U[i] < min_u)
-                min_u = U[i];
-        }
-        // Compute the limit and get RCL
-        RCL.clear(); // Empty RCL
-        limit = min_u + alpha * (max_u - min_u);
-        for(i = 0; i < n; i++)
-            // If variable's index not in prohib then we
-            // add the index in the RCL
-            if(prohib.find(i) == prohib.end() && U[i] >= limit)
-                RCL.insert(i);
+    size_t min_u, max_u, *u_order = argsort(n, U); // DON'T FORGET TO DELETE
 
-        // Select an element e from the RCL at random
+    i = 0;
+    while(s != m && i < n) {
+        max_u = -1, min_u = -1;
+        // Indices of max and min utilities
+        for(j = 0; j < n && !candidate[j]; j++);
+        max_u = u_order[j];
+        for(j = n-1; j >= 0 && !candidate[j]; j--);
+        min_u = u_order[j];
+        limit = U[min_u] + alpha * (U[max_u] - U[min_u]);
+        for(j = 0; j < n; j++)
+            // If variable's index is candidate and the utility
+            // greater than limit then we add the index in RCL
+            if(candidate[j] && U[j] >= limit)
+                RCL.insert(j);
+
+        // Select an element e from RCL at random
         e = *select_randomly(RCL.begin(), RCL.end());
-        // Incorporate variable e into x
-        x[e] = 1;
-
-        // Update the prohibited candidate list
-        prohib[e] = 1;
-        // Selecting variable e means that we must select the
-        // corresponding column in the matrix A
-        for(j = 0; j < m; j++) column[j] += A[INDEX(e, j)];
-
-        // Check which candidates have a conflict with e and add
-        // them to the prohibited candidate list
-        for(i = 0; i < n; i++) {
-            if(prohib.find(i) == prohib.end()) {
-                for(j = 0, valid = true; j < m && valid; j++)
-                    valid = column[j] + A[INDEX(i, j)] <= 1;
-                if(!valid) prohib[i] = 1;
-            }
-        }
+        for(j = 0, valid = true; j < m && valid; j++)
+            valid = column[j] + A[INDEX(e, j)] <= 1;
+        for(j = 0, s = 0; j < m && valid; s += column[j], j++)
+            column[j] += A[INDEX(e, j)];
+        x[e] = valid;
+        i += 1; RCL = std::set<int>();
     }
 
+    delete[] u_order; delete[] candidate;
     return std::make_tuple(x, dot(n, x, C), column);
 }
 
