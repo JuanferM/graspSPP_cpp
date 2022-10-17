@@ -7,7 +7,7 @@ std::tuple<char*, int, char*> GreedyRandomized(
         const int* C,
         const char* A,
         const float* U,
-        float alpha) {
+        const float alpha) {
     bool valid;
     int i(0), j(0), e(0), min_u, max_u;
     float limit(0.0f);
@@ -91,7 +91,7 @@ void GRASP(
         std::vector<int>& zInits,
         std::vector<int>& zAmels,
         std::vector<int>& zBests,
-        float alpha,
+        const float alpha,
         int nbIter,
         bool deep) {
     int iter(0);

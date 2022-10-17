@@ -13,7 +13,7 @@ std::tuple<char*, int, char*> GreedyRandomized(
         const int* C,
         const char* A,
         const float* U,
-        float alpha);
+        const float alpha);
 
 // Greedy improvement of a feasible solution through (deep) local search
 void GreedyImprovement(
@@ -36,7 +36,7 @@ void GRASP(
         std::vector<int>& zInits,
         std::vector<int>& zAmels,
         std::vector<int>& zBests,
-        float alpha = 0.7,
+        const float alpha,
         int nbIter = 100,
         bool deep = true);
 
