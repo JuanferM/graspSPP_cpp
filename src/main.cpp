@@ -17,7 +17,7 @@ int main() {
 
     m_print(std::cout, _CLRd, "Etudiants : MERCIER et PICHON\n", _CLR);
     #if !USE_GLPK
-        const int _NBD_ = NUM_DIVISION%NUM_ITER ? NUM_DIVISION%NUM_ITER : 1;
+        const int _NBD_ = NUM_DIVISION > NUM_ITER ? NUM_ITER : NUM_DIVISION;
         m_print(std::cout, _CLP, "\nalpha\t\t\t= ", ALPHA);
         m_print(std::cout, "\nnombre de runs\t\t= ", NUM_RUN);
         m_print(std::cout, "\nnombre d'itérations\t= ", NUM_ITER);
