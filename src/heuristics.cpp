@@ -21,9 +21,9 @@ std::tuple<char*, int, char*> GreedyRandomized(
         min_u = INT_MAX, max_u = INT_MIN;
         // Indices of utilities (get min and max)
         for(i = 0; i < n; i++) {
-            if(!(*(&prohib[i])) && U[i] > max_u)
+            if(prohib.find(i) == prohib.end() && U[i] > max_u)
                 max_u = U[i];
-            if(!(*(&prohib[i])) && U[i] < min_u)
+            if(prohib.find(i) == prohib.end() && U[i] < min_u)
                 min_u = U[i];
         }
         // Compute the limit and get RCL
