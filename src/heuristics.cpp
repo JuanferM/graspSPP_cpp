@@ -23,9 +23,9 @@ std::tuple<char*, int, char*> GreedyRandomized(
     while(s != m && i < n) {
         max_u = -1, min_u = -1;
         // Indices of max and min utilities
-        for(j = 0; j < n && !candidate[j]; j++);
+        for(j = 0; j < n && !candidate[u_order[j]]; j++);
         max_u = u_order[j];
-        for(j = n-1; j >= 0 && !candidate[j]; j--);
+        for(j = n-1; j >= 0 && !candidate[u_order[j]]; j--);
         min_u = u_order[j];
         limit = U[min_u] + alpha * (U[max_u] - U[min_u]);
         for(j = 0; j < n; j++)
@@ -34,14 +34,16 @@ std::tuple<char*, int, char*> GreedyRandomized(
             if(candidate[j] && U[j] >= limit)
                 RCL.insert(j);
 
-        // Select an element e from RCL at random
-        e = *select_randomly(RCL.begin(), RCL.end());
-        for(j = 0, valid = true; j < m && valid; j++)
-            valid = column[j] + A[INDEX(e, j)] <= 1;
-        for(j = 0, s = 0; j < m && valid; s += column[j], j++)
-            column[j] += A[INDEX(e, j)];
-        x[e] = valid;
-        i += 1; RCL = std::set<int>();
+        if(RCL.size()) {
+            // Select an element e from RCL at random
+            e = *select_randomly(RCL.begin(), RCL.end());
+            for(j = 0, valid = true; j < m && valid; j++)
+                valid = column[j] + A[INDEX(e, j)] <= 1;
+            for(j = 0, s = 0; j < m && valid; s += column[j], j++)
+                column[j] += A[INDEX(e, j)];
+            x[e] = valid, candidate[e] = false;
+        }
+        i += 1; RCL.clear();
     }
 
     delete[] u_order; delete[] candidate;

@@ -17,13 +17,17 @@ void plotRunGRASP(
     double lb = *std::min_element(std::begin(zInits), std::end(zInits)),
            ub = *std::max_element(std::begin(zBests), std::end(zBests));
 
+    if(lb == ub) {
+        lb -= 5;
+        ub += 5;
+    }
+
     auto fig = matplot::figure(true);
     fig->name("Examen d'un run");
     fig->size(576, 576);
     fig->title(tit);
     matplot::xlabel("Itérations");
     matplot::ylabel("valeurs de z(x)");
-    matplot::ylim({lb-5, ub+5});
     matplot::xticks({1.0, ceil(n/4.0), ceil(n/2.0), ceil((3*n)/4.0), (double)n});
     matplot::axis({0, n+1.0, lb-(int(lb/100)+1)*2, ub+(int(ub/100)+1)*2});
     matplot::plot(X, zBests)
