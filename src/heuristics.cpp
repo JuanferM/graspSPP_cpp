@@ -32,7 +32,7 @@ std::tuple<char*, int, char*> GreedyRandomized(
         for(i = 0; i < n; i++)
             // If variable's index not in prohib then we
             // add the index in the RCL
-            if(!(*(&prohib[i])) && U[i] >= limit)
+            if(prohib.find(i) == prohib.end() && U[i] >= limit)
                 RCL.insert(i);
 
         // Select an element e from the RCL at random
@@ -49,7 +49,7 @@ std::tuple<char*, int, char*> GreedyRandomized(
         // Check which candidates have a conflict with e and add
         // them to the prohibited candidate list
         for(i = 0; i < n; i++) {
-            if(!(*(&prohib[i]))) {
+            if(prohib.find(i) == prohib.end()) {
                 for(j = 0, valid = true; j < m && valid; j++)
                     valid = column[j] + A[INDEX(i, j)] <= 1;
                 if(!valid) prohib[i] = 1;
