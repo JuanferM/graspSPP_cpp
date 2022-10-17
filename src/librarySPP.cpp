@@ -21,6 +21,7 @@ std::vector<std::string> getfname(std::string pathtofolder) {
 
     m_print(std::cout, "DONE!\n");
 
+    std::sort(files.begin(), files.end());
     return files;
 }
 
