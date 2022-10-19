@@ -23,7 +23,7 @@ void plotAnalyseGRASP(
         const std::string instance,
         const std::vector<double>& divs,
         const std::vector<int> zMin,
-        const std::vector<int> zMoy,
+        const std::vector<double> zMoy,
         const std::vector<int> zMax);
 
 // Plot le bilan CPUt pour chaque instance (le

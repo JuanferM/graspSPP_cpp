@@ -1,7 +1,6 @@
 #ifndef LIBRARYSPP_H
 #define LIBRARYSPP_H
 
-#include <set>
 #include <tuple>
 #include <string>
 #include <chrono>
@@ -82,9 +81,9 @@ void freeSPP(int* C, char* A, float* U);
 
 // Computes indirect sort of an array (decreasing order)
 template<typename T>
-size_t* argsort(int size, const T* arr) {
+int* argsort(int size, const T* arr) {
     // initialize original index locations
-    size_t* idx = new size_t[size];
+    int* idx = new int[size];
     std::iota(idx, idx+size, 0);
 
     // sort indexes based on comparing values in arr

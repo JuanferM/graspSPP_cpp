@@ -62,7 +62,7 @@ void plotAnalyseGRASP(
         const std::string instance,
         const std::vector<double>& divs,
         const std::vector<int> zMin,
-        const std::vector<int> zMoy,
+        const std::vector<double> zMoy,
         const std::vector<int> zMax) {
     int n = divs.size();
     std::string ins(instance);
@@ -70,10 +70,18 @@ void plotAnalyseGRASP(
         if(ins[i] == '_')
             ins.replace(i, 1, "＿");
     std::string tit("GRASP-SPP | z_{min} z_{moy} z_{max} | " + ins);
-    auto err = matplot::transform(matplot::linspace(0, n-1),
-            [zMin, zMax](double x) {
-                return std::abs(zMin[(int)x]-zMax[(int)x]);
-            });
+    auto yerr1 = matplot::transform(matplot::linspace(0, n-1, n),
+            [zMin, zMoy](double x) {
+                return zMoy[int(x)]-zMin[(int)x];
+            }),
+         yerr2 = matplot::transform(matplot::linspace(0, n-1, n),
+            [zMoy, zMax](double x) {
+                return zMax[(int)x]-zMoy[(int)x];
+            }),
+         xerr = matplot::linspace(0, 0, n-1);
+
+    double ub = *std::max_element(zMax.begin(), zMax.end())
+                + (*std::max_element(yerr2.begin(), yerr2.end()))/2;
 
     auto fig = matplot::figure(true);
     fig->name("Bilan tous runs");
@@ -81,13 +89,9 @@ void plotAnalyseGRASP(
     fig->title(tit);
     matplot::xlabel("Itérations");
     matplot::ylabel("valeurs de z(x)");
-    if(*std::max_element(err.begin(), err.end()) == 0)
-        matplot::axis({divs[0]-1, divs[n-1]+1,
-                0, *std::max_element(zMax.begin(), zMax.end())+5.0});
-    else
-        matplot::axis({divs[0]-1, divs[n-1]+1, matplot::inf, matplot::inf});
+    matplot::axis({divs[0]-1, divs[n-1]+1, 0, ub+(int(ub/100)+1)*2});
     matplot::xticks(divs);
-    matplot::errorbar(divs, zMoy, err)
+    matplot::errorbar(divs, zMoy, yerr1, yerr2, xerr, xerr)
         ->line_width(1)
         .color("black")
         .marker("+")
@@ -112,8 +116,13 @@ void plotCPUt(
         for(int i = 0; i < (int)fnames[n].size(); i++)
             if(fnames[n][i] == '_')
                 fnames[n].replace(i, 1, "＿");
-
-    auto x = matplot::linspace(1, n, n);
+    bool sp(n == 1); // Singlepoint ? (little trick if there is only one
+                     // instance)
+    auto x = matplot::linspace(1, sp ? n+2 : n, sp ? n+2 : n);
+    if(sp) {
+        tMoy.push_back(tMoy[0]), tMoy.push_back(0), tMoy[0] = 0;
+        fnames.push_back(fnames[0]), fnames.push_back(""), fnames[0] = "";
+    }
 
     auto fig = matplot::figure(true);
     fig->name("Bilan CPUt tous runs");
@@ -123,14 +132,18 @@ void plotCPUt(
     matplot::xticks(x);
     matplot::xticklabels(fnames);
     matplot::xtickangle(60);
-    matplot::plot(x, tMoy, "--")
-        ->line_width(0.5)
-        .marker_size(4)
-        .color("blue")
-        .marker("o")
-        .marker_face(true)
-        .display_name("tMoy");
+    matplot::plot(x, tMoy, sp ? "o" : "--")
+    ->line_width(0.5)
+    .marker_size(4)
+    .color("blue")
+    .marker("o")
+    .marker_face(true)
+    .display_name("tMoy");
     matplot::legend()
         ->location(matplot::legend::general_alignment::bottomright);
     fig->draw();
+    if(sp) {
+        tMoy[0] = tMoy[1], tMoy.pop_back(), tMoy.pop_back();
+        fnames[0] = fnames[1], fnames.pop_back(), fnames.pop_back();
+    }
 }

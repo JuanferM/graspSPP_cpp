@@ -9,13 +9,15 @@ std::vector<std::string> getfname(std::string pathtofolder) {
     m_print(std::cout, "Loading instances...\n");
     for(const auto &file : dir) {
         std::filesystem::path p(file.path());
-        // Get filename
-        std::string f(p.filename().c_str());
+        if(!file.is_directory()) {
+            // Get filename
+            std::string f(p.filename().c_str());
 
-        // Not a hidden file
-        if(f[0] != '.') {
-            files.push_back(f);
-            m_print(std::cout, "fname = ", f, "\n");
+            // Not a hidden file
+            if(f[0] != '.') {
+                files.push_back(f);
+                m_print(std::cout, "fname = ", f, "\n");
+            }
         }
     }
 
