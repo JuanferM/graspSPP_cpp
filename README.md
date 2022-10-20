@@ -17,24 +17,36 @@ doit être dans `bin`. Pour utiliser le makefile les répertoires `bin`, `includ
 `src` et `obj` doivent être présents.
 
 ### Dépendances et standard C++ utilisé
-Le standard C++ utilisé dans ce projet est le C++20, assurez-vous d'avoir une version
+Le standard C++ utilisé dans ce projet est le C++17, assurez-vous d'avoir une version
 de g++ supportant ce standard.
 
 Il est possible de résoudre les instances avec GLPK, assurez-vous d'avoir GLPK
-installé sur votre machine (l'installation de la bibliothèque libglpk-dev est 
+installé sur votre machine (l'installation de la bibliothèque libglpk-dev est
 fortement recommandée).
 
 Pour générer les plots, nous utilisons une version modifiée de la bibliothèque Matplot++
 (https://alandefreitas.github.io/matplotplusplus/) qui a besoin des dépendances
 suivantes :
 * gnuplot (version 5.2.6+)
-* libx11-dev
+* libx11-dev (recommandé si vous utilisez le protocole de
+  fenêtrage X11)
 
-La bibliothèque Matplot++ utilise aussi d'autres dépendances mais la bibliothèque dynamique 
+La bibliothèque Matplot++ utilise aussi d'autres dépendances mais la bibliothèque dynamique
 _libmatplot.so_ (répertoire `lib`) comporte tous le nécessaire pour compiler Matplot++.
+Cette bibliothèque fonctionne pour l'architecture **x86**. Un
+script (`configure.sh`, utilisant la commande _cp_) a été créé pour
+remplacer _libmatplot.so_ par une version supportant l'architecture **aarch** (ARM).
+Pour utiliser l'architecture x86 lancer depuis votre terminal :
+```bash
+configure.sh x86
+```
+Pour utiliser l'architecture aarch :
+```bash
+configure.sh aarch
+```
 
 ### GLPK
-Pour lancer GLPK sur les instances veuillez redéfinir USE_GLPK (macro dans le
+Pour lancer GLPK sur les instances veuillez redéfinir USE_GLPK (constante préprocesseur dans le
 fichier `src/main.cpp`) à true :
 ```c
 #define USE_GLPK true
@@ -44,7 +56,7 @@ Sinon pour utiliser notre solution :
 #define USE_GLPK false
 ```
 
-De plus, pour activer tous les messages de GLPK veuillez redéfinir VERBOSE_GLPK (macro dans
+De plus, pour activer tous les messages de GLPK veuillez redéfinir VERBOSE_GLPK (constante préprocesseur dans
 le fichier `src/main.cpp`) à true :
 ```c
 #define VERBOSE_GLPK true
@@ -57,28 +69,61 @@ Sinon pour ne recevoir que les messages normaux :
 
 ### Paramètres du GRASP
 #### Alpha
-Pour modifier la valeur de alpha veuillez redéfinir ALPHA (macro dans le
+Pour modifier la valeur de alpha veuillez redéfinir ALPHA (constante préprocesseur dans le
 fichier `src/main.cpp`) :
 ```c
 #define ALPHA <x>
 ```
 Où _x_ est un flottant entre 0 et 1.
 #### Nombre d'itérations
-Pour modifier le nombre d'itérations veuillez redéfinir NUM_ITER (macro dans le
-fichier `src/main.cpp`) :
+Pour modifier le nombre d'itérations veuillez redéfinir NUM_ITER (
+constante préprocesseur dans le fichier `src/main.cpp`) :
 ```c
 #define NUM_ITER <x>
 ```
-Où _x_ est un nombre entier strictement positif.
+Où _x_ est un nombre entier strictement positif au moins égal à 2 (toute
+valeur incorrecte sera remplacée par 2).
+#### Nombre d'exécutions
+Pour modifier le nombre d'exécutions (run) de GRASP veuillez
+redéfinir NUM_RUN (constante préprocesseur dans le fichier
+`src/main.cpp`) :
+```c
+#define NUM_RUN <x>
+```
+Où _x_ est un nombre entier strictement positif au moins égal à 1 (toute valeur
+incorrecte sera remplacée par 1).
+#### Nombre de points pour l'affichage des plots
+Pour modifier le nombre de points utilisé pour afficher les runs de GRASP
+veuillez redéfinir NUM_DIVISION (constante préprocesseur dans le
+fichier `src/main.cpp`) :
+```c
+#define NUM_DIVISION <x>
+```
 #### (Plus profonde) descente
 Pour effectuer des améliorations par recherche locale de type plus profonde descente
-veuillez redéfinir DEEPSEARCH (macro dans le fichier `src/main.cpp`) à true :
+veuillez redéfinir DEEPSEARCH (constante préprocesseur dans le
+fichier `src/main.cpp`) à true :
 ```c
 #define DEEPSEARCH true
 ```
 Sinon pour des descentes "normales" :
 ```c
 #define DEEPSEARCH false
+```
+#### Mode intéractif
+Les plots affichés sont tous intéractifs. L'actionnement de la molette de la
+souris permet de zoomer sur les plots. Cependant, une fois que le programme
+est terminé les plots deviennent statique et il est impossible d'intéragir
+avec. Un mode intéractif a été implémenté et permet d'intéragir avec les plots
+tant que l'utilisateur n'appuie pas sur une touche depuis le terminal. Pour
+activer le mode intéractif, veuillez redéfinir INTERACTIVE (constante
+préprocesseur dans le fichier `src/main.cpp`) :
+```c
+#define INTERACTIVE true
+```
+Pour le désactiver :
+```c
+#define INTERACTIVE false
 ```
 
 ### Listes des instances qui ont été utilisées pour l'expérimentation
