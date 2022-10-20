@@ -76,6 +76,14 @@ Sinon pour ne recevoir que les messages normaux :
 #define VERBOSE_GLPK false
 ```
 
+### OpenMP
+Pour préciser le nombre de threads maximum qu'OpenMP peut utiliser pour paralléliser GRASP veuillez
+redéfinir MAX_THREADS (constante prépocesseur dans le fichier `src/main.cpp`) :
+```c
+#define MAX_THREADS <x>
+```
+Où _x_ est un nombre entier strictement positif (toute valeur incorrecte sera remplacée par 10).
+
 
 ### Paramètres du GRASP
 #### Alpha
@@ -142,6 +150,7 @@ Pour le désactiver :
 ```c
 #define INTERACTIVE false
 ```
+
 
 ### Listes des instances qui ont été utilisées pour l'expérimentation
 * didactic.dat
