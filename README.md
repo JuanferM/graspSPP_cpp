@@ -28,7 +28,11 @@ de g++ supportant ce standard.
 
 Il est possible de résoudre les instances avec GLPK, assurez-vous d'avoir GLPK
 installé sur votre machine (l'installation de la bibliothèque libglpk-dev est
-fortement recommandée).
+fortement recommandée et généralement suffisante pour utiliser GLPK dans notre cas).
+
+Pour paralléliser GRASP, nous utilisons OpenMP, assurez-vous d'avoir OpenMP installé
+sur votre machine (l'installation de libomp-dev est fortement recommandée et 
+généralement suffisante pour utiliser OpenMP dans notre cas).
 
 Pour générer les plots, nous utilisons une version modifiée de la bibliothèque Matplot++
 (https://alandefreitas.github.io/matplotplusplus/) qui a besoin des dépendances
