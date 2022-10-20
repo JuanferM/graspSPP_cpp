@@ -35,7 +35,7 @@ La bibliothèque Matplot++ utilise aussi d'autres dépendances mais la biblioth�
 _libmatplot.so_ (répertoire `lib`) comporte tous le nécessaire pour compiler Matplot++.
 Cette bibliothèque fonctionne pour l'architecture **x86**. Un
 script (`configure.sh`, utilisant la commande _cp_) a été créé pour
-remplacer _libmatplot.so_ par une version supportant l'architecture **aarch** (ARM).
+remplacer _libmatplot.so_ par une version supportant l'architecture **aarch** (ARM) si besoin.
 Pour utiliser l'architecture x86 lancer depuis votre terminal :
 ```bash
 configure.sh x86
