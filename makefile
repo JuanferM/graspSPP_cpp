@@ -23,11 +23,11 @@ LIB := $(foreach d, $(LIB_DIR), -L$d)
 # CC specifies which compiler we're using
 CC 			:= g++
 # COMPILER_FLAGS specifies the additional compilation options we're using
-CXXFLAGS	:= -Wall -fpic -std=c++17
+CXXFLAGS	:= -Wall -fpic -std=c++17 -fopenmp
 # Linker flag
 LDFLAGS		:=
 # LDFLAGS specifies the libraries we're linking against
-LDLIBS		:= $(LIB) -lglpk -lm -L/usr/X11R6/lib -lpthread -lX11 -lmatplot -Wl,-rpath=$(LIB_DIR)
+LDLIBS		:= $(LIB) -lglpk -fopenmp -lm -L/usr/X11R6/lib -lpthread -lX11 -lmatplot -Wl,-rpath=$(LIB_DIR)
 # -I is a preprocessor flag, not a compiler flag
 CPPFLAGS	:= $(INC)
 

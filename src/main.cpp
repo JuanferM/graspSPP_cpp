@@ -1,13 +1,20 @@
 #include "plots.hpp"
 #include "heuristics.hpp"
 
+#include <omp.h>
+
+// Paramètres GLPK
 #define USE_GLPK        false
 #define VERBOSE_GLPK    false
 
+// Paramètres OpenMP
+#define MAX_THREADS 16
+
+// Paramètres GRASP
 #define ALPHA           0.7
-#define NUM_RUN         10
-#define NUM_ITER        30
-#define NUM_DIVISION    5
+#define NUM_RUN         3
+#define NUM_ITER        200
+#define NUM_DIVISION    10
 #define DEEPSEARCH      true
 #define INTERACTIVE     false
 
@@ -15,7 +22,6 @@ int main() {
     // This program will create different sequence of
     // random numbers on every program run
     // Use current time as seed for random generator
-    srand(time(0));
     std::string pwd(std::filesystem::current_path());
     std::string path(pwd + "/instances/");
     std::cout.precision(6);
@@ -30,14 +36,23 @@ int main() {
             #undef NUM_RUN
             #define NUM_RUN 1
         #endif
+        #if MAX_THREADS < 1
+            #undef MAX_THREADS
+            #define MAX_THREADS 10
+        #endif
+
+        INIT_TIMER();
+        omp_set_num_threads(MAX_THREADS);
+
         const int _NBD_ = NUM_DIVISION > NUM_ITER ? NUM_ITER : NUM_DIVISION;
         m_print(std::cout, _CLP, "\nalpha\t\t\t= ", ALPHA);
         m_print(std::cout, "\nnombre de runs\t\t= ", NUM_RUN);
         m_print(std::cout, "\nnombre d'itérations\t= ", NUM_ITER);
+        m_print(std::cout, "\nnombre de threads\t= ", MAX_THREADS);
         m_print(std::cout, "\ndescente profonde\t: ", (DEEPSEARCH ? "oui" : "non"));
-        m_print(std::cout, "\nplot des runs en \t: ", _NBD_, " points\n\n", _CLR);
+        m_print(std::cout, "\nplot des runs en \t: ", _NBD_, " points");
+        m_print(std::cout, "\nmode intéractif\t\t: ", (INTERACTIVE ? "oui" : "non"), "\n\n", _CLR);
 
-        INIT_TIMER();
         float t(0), *U(nullptr);
         char *A(nullptr);
         int ins(0), run(0), div(0), m(-1), n(-1), *C(nullptr);
