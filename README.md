@@ -75,6 +75,7 @@ fichier `src/main.cpp`) :
 #define ALPHA <x>
 ```
 Où _x_ est un flottant entre 0 et 1.
+
 #### Nombre d'itérations
 Pour modifier le nombre d'itérations veuillez redéfinir NUM_ITER (
 constante préprocesseur dans le fichier `src/main.cpp`) :
@@ -83,6 +84,7 @@ constante préprocesseur dans le fichier `src/main.cpp`) :
 ```
 Où _x_ est un nombre entier strictement positif au moins égal à 2 (toute
 valeur incorrecte sera remplacée par 2).
+
 #### Nombre d'exécutions
 Pour modifier le nombre d'exécutions (run) de GRASP veuillez
 redéfinir NUM_RUN (constante préprocesseur dans le fichier
@@ -92,6 +94,7 @@ redéfinir NUM_RUN (constante préprocesseur dans le fichier
 ```
 Où _x_ est un nombre entier strictement positif au moins égal à 1 (toute valeur
 incorrecte sera remplacée par 1).
+
 #### Nombre de points pour l'affichage des plots
 Pour modifier le nombre de points utilisé pour afficher les runs de GRASP
 veuillez redéfinir NUM_DIVISION (constante préprocesseur dans le
@@ -101,6 +104,7 @@ fichier `src/main.cpp`) :
 ```
 Où x est un nombre entier strictement positif entre 1 et NUM_ITER (toute valeur
 incorrecte sera remplacée par NUM_ITER).
+
 #### (Plus profonde) descente
 Pour effectuer des améliorations par recherche locale de type plus profonde descente
 veuillez redéfinir DEEPSEARCH (constante préprocesseur dans le
@@ -112,6 +116,7 @@ Sinon pour des descentes "normales" :
 ```c
 #define DEEPSEARCH false
 ```
+
 #### Mode intéractif
 Les plots affichés sont tous intéractifs. L'actionnement de la molette de la
 souris permet de zoomer sur les plots. Cependant, une fois que le programme
