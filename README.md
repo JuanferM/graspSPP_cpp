@@ -18,8 +18,9 @@ make clean
 
 **ATTENTION:** le répertoire `instances` doit se trouver dans le même répertoire
 d'où le programme est lancé. Si le programme est lancé depuis `bin` alors `instances`
-doit être dans `bin`. Pour utiliser le makefile les répertoires `bin`, `include`,
-`src` et `obj` doivent être présents.
+doit être dans `bin`. Pour utiliser le makefile les répertoires `include`, `src` et
+`lib` doivent être présents. Toutes les commandes présentées dans ce README sont
+supposées être lancé depuis le répértoire parent de `src` (sauf indication contraire).
 
 ### Dépendances et standard C++ utilisé
 Le standard C++ utilisé dans ce projet est le C++17, assurez-vous d'avoir une version
