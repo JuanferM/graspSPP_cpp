@@ -99,6 +99,8 @@ fichier `src/main.cpp`) :
 ```c
 #define NUM_DIVISION <x>
 ```
+Où x est un nombre entier strictement positif entre 1 et NUM_ITER (toute valeur
+incorrecte sera remplacée par NUM_ITER).
 #### (Plus profonde) descente
 Pour effectuer des améliorations par recherche locale de type plus profonde descente
 veuillez redéfinir DEEPSEARCH (constante préprocesseur dans le
