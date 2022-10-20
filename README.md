@@ -3,12 +3,17 @@ GRASP pour le Set Packing Problem (SPP)
 
 *Commande pour compiler*:
 ```bash
-make clean && make
+make
 ```
 
 *Commande pour lancer le programme*:
 ```bash
 ./bin/DM2
+```
+
+*Commande pour effacer les fichiers générer lors de la compilation*:
+```bash
+make clean
 ```
 
 **ATTENTION:** le répertoire `instances` doit se trouver dans le même répertoire
