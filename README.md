@@ -48,11 +48,11 @@ script (`configure.sh`, utilisant la commande _cp_) a été créé pour
 remplacer _libmatplot.so_ par une version supportant l'architecture **aarch** (ARM) si besoin.
 Pour utiliser l'architecture x86 lancez depuis votre terminal :
 ```bash
-configure.sh x86
+./configure.sh x86
 ```
 Pour utiliser l'architecture aarch :
 ```bash
-configure.sh aarch
+./configure.sh aarch
 ```
 
 ### GLPK
