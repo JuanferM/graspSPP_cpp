@@ -27,18 +27,18 @@ Le standard C++ utilisé dans ce projet est le C++17, assurez-vous d'avoir une v
 de g++ supportant ce standard.
 
 Il est possible de résoudre les instances avec GLPK, assurez-vous d'avoir GLPK
-installé sur votre machine (l'installation de la bibliothèque libglpk-dev est
+installé sur votre machine (l'installation de la bibliothèque **libglpk-dev** est
 fortement recommandée et généralement suffisante pour utiliser GLPK dans notre cas).
 
 Pour paralléliser GRASP, nous utilisons OpenMP, assurez-vous d'avoir OpenMP installé
-sur votre machine (l'installation de libomp-dev est fortement recommandée et 
+sur votre machine (l'installation de **libomp-dev** est fortement recommandée et
 généralement suffisante pour utiliser OpenMP dans notre cas).
 
 Pour générer les plots, nous utilisons une version modifiée de la bibliothèque Matplot++
 (https://alandefreitas.github.io/matplotplusplus/) qui a besoin des dépendances
 suivantes :
-* gnuplot (version 5.2.6+)
-* libx11-dev (recommandé si vous utilisez le protocole de
+* **gnuplot** (version 5.2.6+)
+* **libx11-dev** (recommandé si vous utilisez le protocole de
   fenêtrage X11)
 
 La bibliothèque Matplot++ utilise aussi d'autres dépendances mais la bibliothèque dynamique
@@ -77,6 +77,16 @@ Sinon pour ne recevoir que les messages normaux :
 ```
 
 ### OpenMP
+Pour activer la parallélisation veuillez redéfinir PARALLEL (constante
+prépocesseur dans le fichier `src/main.cpp`) à true :
+```c
+#define PARALLEL true
+```
+Sinon pour exécuter les itérations séquentiellement :
+```c
+#define PARALLEL false
+```
+
 Pour préciser le nombre de threads maximum qu'OpenMP peut utiliser pour paralléliser GRASP veuillez
 redéfinir MAX_THREADS (constante prépocesseur dans le fichier `src/main.cpp`) :
 ```c

@@ -38,6 +38,7 @@ void GRASP(
         std::vector<int>& zBests,
         const float alpha,
         int nbIter = 100,
-        bool deep = true);
+        bool deep = true,
+        bool parallel = true);
 
 #endif /* end of include guard: HEURISTICS_H */

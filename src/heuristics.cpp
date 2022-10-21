@@ -81,12 +81,11 @@ void GRASP(
         std::vector<int>& zBests,
         const float alpha,
         int nbIter,
-        bool deep) {
+        bool deep,
+        bool parallel) {
     int iter(0), zBest(-1);
 
-    // TODO déterminer à partir de combien d'itérations il est intéressant
-    // d'utiliser la parallélisation
-    #pragma omp parallel for if(nbIter > 50)
+    #pragma omp parallel for if(parallel)
     for(iter = 0; iter < nbIter; iter++) {
         char *x(nullptr), *column(nullptr);
         std::tie(x, zInits[iter], column) = GreedyRandomized(m, n, C, A, U, alpha);
@@ -99,8 +98,7 @@ void GRASP(
         if(column) delete[] column, column = nullptr;
     }
 
-    // Post-calculs des zBests grâce aux zAmels (portion de code
-    // non-parallélisable)
+    // Compute zBests using zAmels
     for(iter = 0; iter < nbIter; iter++) {
         zBest = std::max(zBest, zAmels[iter]);
         zBests[iter] = zBest;

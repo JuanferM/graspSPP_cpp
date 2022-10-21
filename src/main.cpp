@@ -8,13 +8,14 @@
 #define VERBOSE_GLPK    false
 
 // Paramètres OpenMP
-#define MAX_THREADS 16
+#define PARALLEL        true
+#define MAX_THREADS     5
 
 // Paramètres GRASP
 #define ALPHA           0.7
-#define NUM_RUN         3
-#define NUM_ITER        200
-#define NUM_DIVISION    10
+#define NUM_RUN         1
+#define NUM_ITER        100
+#define NUM_DIVISION    20
 #define DEEPSEARCH      true
 #define INTERACTIVE     false
 
@@ -42,13 +43,15 @@ int main() {
         #endif
 
         INIT_TIMER();
-        omp_set_num_threads(MAX_THREADS);
+        if(PARALLEL) omp_set_num_threads(MAX_THREADS);
 
         const int _NBD_ = NUM_DIVISION > NUM_ITER ? NUM_ITER : NUM_DIVISION;
         m_print(std::cout, _CLP, "\nalpha\t\t\t= ", ALPHA);
         m_print(std::cout, "\nnombre de runs\t\t= ", NUM_RUN);
         m_print(std::cout, "\nnombre d'itérations\t= ", NUM_ITER);
-        m_print(std::cout, "\nnombre de threads\t= ", MAX_THREADS);
+        if(PARALLEL)
+            m_print(std::cout, "\nnombre de threads\t= ", MAX_THREADS);
+        m_print(std::cout, "\nparallélisation\t\t: ", (PARALLEL ? "oui" : "non"));
         m_print(std::cout, "\ndescente profonde\t: ", (DEEPSEARCH ? "oui" : "non"));
         m_print(std::cout, "\nplot des runs en \t: ", _NBD_, " points");
         m_print(std::cout, "\nmode intéractif\t\t: ", (INTERACTIVE ? "oui" : "non"), "\n\n", _CLR);
@@ -88,7 +91,8 @@ int main() {
             for(run = 0; run < NUM_RUN; run++) {
                 // Run GRASP NUM_RUN times
                 TIMED(t,
-                    GRASP(m, n, C, A, U, zInits, zAmels, zBests, ALPHA, NUM_ITER, DEEPSEARCH);
+                    GRASP(m, n, C, A, U, zInits, zAmels, zBests,
+                        ALPHA, NUM_ITER, DEEPSEARCH, PARALLEL);
                 );
                 tMoy[ins] = (!run) ? t : tMoy[ins]+t;
                 // Compute zMax, zMin and zMoy NUM_DIVISION time
