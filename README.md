@@ -148,8 +148,8 @@ Sinon pour des descentes "normales" :
 #### Mode intéractif
 Les plots affichés sont tous intéractifs. L'actionnement de la molette de la
 souris permet de zoomer sur les plots. Cependant, une fois que le programme
-est terminé les plots deviennent statique et il est impossible d'intéragir
-avec. Un mode intéractif a été implémenté et permet d'intéragir avec les plots
+est terminé les plots deviennent statiques et il est impossible d'intéragir
+avec ces-derniers. Un mode intéractif a été implémenté et permet d'intéragir avec les plots
 tant que l'utilisateur n'appuie pas sur une touche depuis le terminal. Pour
 activer le mode intéractif, veuillez redéfinir INTERACTIVE (constante
 préprocesseur dans le fichier `src/main.cpp`) :
