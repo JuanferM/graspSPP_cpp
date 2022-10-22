@@ -78,7 +78,7 @@ Sinon pour ne recevoir que les messages normaux :
 
 ### OpenMP
 Pour activer la parallélisation veuillez redéfinir PARALLEL (constante
-prépocesseur dans le fichier `src/main.cpp`) à true :
+préprocesseur dans le fichier `src/main.cpp`) à true :
 ```c
 #define PARALLEL true
 ```

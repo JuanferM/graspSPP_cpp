@@ -9,14 +9,14 @@
 
 // Paramètres OpenMP
 #define PARALLEL        true
-#define MAX_THREADS     5
+#define MAX_THREADS     10
 
 // Paramètres GRASP
 #define ALPHA           0.7
 #define NUM_RUN         1
-#define NUM_ITER        100
+#define NUM_ITER        50
 #define NUM_DIVISION    20
-#define DEEPSEARCH      true
+#define DEEPSEARCH      false
 #define INTERACTIVE     false
 
 int main() {
