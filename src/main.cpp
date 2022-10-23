@@ -8,7 +8,7 @@
 #define VERBOSE_GLPK    false
 
 // Paramètres OpenMP
-#define PARALLEL        true
+#define PARALLEL        false
 #define MAX_THREADS     10
 
 // Paramètres GRASP

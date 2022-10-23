@@ -78,7 +78,7 @@ void plotAnalyseGRASP(
             [zMoy, zMax](double x) {
                 return zMax[(int)x]-zMoy[(int)x];
             }),
-         xerr = matplot::linspace(0, 0, n-1);
+         xerr = matplot::linspace(0, 0, n);
 
     double ub = *std::max_element(zMax.begin(), zMax.end())
                 + (*std::max_element(yerr2.begin(), yerr2.end()))/2;
