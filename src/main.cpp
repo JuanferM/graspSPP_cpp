@@ -14,7 +14,7 @@
 // Paramètres GRASP
 #define ALPHA           0.7
 #define NUM_RUN         1
-#define NUM_ITER        50
+#define NUM_ITER        200
 #define NUM_DIVISION    20
 #define DEEPSEARCH      false
 #define INTERACTIVE     false
