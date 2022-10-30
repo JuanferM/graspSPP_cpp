@@ -20,6 +20,7 @@
 
 // Paramètres plot
 #define INTERACTIVE     false
+#define SILENT_MODE     true
 #define PATH_PLOT       "exp/"
 
 int main() {
@@ -59,6 +60,7 @@ int main() {
         m_print(std::cout, "\nplot des runs en \t: ", _NBD_, " points");
         if(std::string("").compare(PATH_PLOT))
             m_print(std::cout, "\nrépertoire plots \t: ", PATH_PLOT);
+        m_print(std::cout, "\nmode silencieux\t\t: ", (SILENT_MODE ? "oui" : "non"));
         m_print(std::cout, "\nmode intéractif\t\t: ", (INTERACTIVE ? "oui" : "non"), "\n\n", _CLR);
 
         float t(0), *U(nullptr);
@@ -114,9 +116,9 @@ int main() {
 
             // Plots
             m_print(std::cout, "\nPlot du dernier run...\n");
-            plotRunGRASP(instance, zInits, zAmels, zBests, PATH_PLOT);
+            plotRunGRASP(instance, zInits, zAmels, zBests, PATH_PLOT, SILENT_MODE);
             m_print(std::cout, "Bilan de l'ensemble des runs...\n");
-            plotAnalyseGRASP(instance, divs, zMin, zMoy, zMax, PATH_PLOT);
+            plotAnalyseGRASP(instance, divs, zMin, zMoy, zMax, PATH_PLOT, SILENT_MODE);
 
             /* MOST IMPORTANT SECTIONS */
             freeSPP(C, A, U);
@@ -133,7 +135,7 @@ int main() {
 
         // Plots
         m_print(std::cout, "\n\nBilan CPUt moyen (par run) pour chaque instance...\n");
-        plotCPUt(fnames, tMoy, PATH_PLOT);
+        plotCPUt(fnames, tMoy, PATH_PLOT, SILENT_MODE);
 
         if(INTERACTIVE) {
             m_print(std::cout, _CLG, "\nMODE INTÉRACTIF: Appuyez sur ENTRER pour terminer...\n", _CLR);

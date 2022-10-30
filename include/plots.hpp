@@ -15,7 +15,8 @@ void plotRunGRASP(
         const std::vector<int>& zInits,
         const std::vector<int>& zAmels,
         const std::vector<int>& zBests,
-        std::string save_path = "");
+        std::string save_path = "",
+        bool silent_mode = false);
 
 // Plot le bilan de tous les runs de GRASP
 // sur une instance (plot exactement NUM_DIVISION
@@ -26,13 +27,15 @@ void plotAnalyseGRASP(
         const std::vector<int> zMin,
         const std::vector<double> zMoy,
         const std::vector<int> zMax,
-        std::string save_path = "");
+        std::string save_path = "",
+        bool silent_mode = false);
 
 // Plot le bilan CPUt pour chaque instance (le
 // temps d'exécution moyen d'un run)
 void plotCPUt(
         std::vector<std::string> fnames,
         std::vector<float> tMoy,
-        std::string save_path = "");
+        std::string save_path = "",
+        bool silent_mode = false);
 
 #endif /* end of include guard: GRASPPLOTS_H */

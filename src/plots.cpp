@@ -1,12 +1,12 @@
 #include "plots.hpp"
-#include "matplot/util/common.h"
 
 void plotRunGRASP(
         const std::string instance,
         const std::vector<int>& zInits,
         const std::vector<int>& zAmels,
         const std::vector<int>& zBests,
-        std::string save_path) {
+        std::string save_path,
+        bool silent_mode) {
     int i(0), n = zInits.size(), ins_i(-1);
     auto X = matplot::linspace(1, n, n);
     std::string ins(instance);
@@ -59,7 +59,7 @@ void plotRunGRASP(
         .display_name("toutes solutions construites");
     matplot::legend()
         ->location(matplot::legend::general_alignment::bottomright);
-    fig->draw();
+    if(!silent_mode) fig->draw();
     if(ins_i != -1) ins.replace(ins_i, 3, "_");
     if(save_path.compare(""))
         matplot::save(save_path + "run_" + ins + ".png");
@@ -71,7 +71,8 @@ void plotAnalyseGRASP(
         const std::vector<int> zMin,
         const std::vector<double> zMoy,
         const std::vector<int> zMax,
-        std::string save_path) {
+        std::string save_path,
+        bool silent_mode) {
     int n = divs.size(), ins_i(-1);
     std::string ins(instance);
     for(int i = 0; i < (int)ins.size(); i++) {
@@ -116,7 +117,7 @@ void plotAnalyseGRASP(
         .display_name("zMoy");
     matplot::legend()
         ->location(matplot::legend::general_alignment::bottomright);
-    fig->draw();
+    if(!silent_mode) fig->draw();
     if(ins_i != -1) ins.replace(ins_i, 3, "_");
     if(save_path.compare(""))
         matplot::save(save_path + "analyse_" + ins + ".png");
@@ -125,7 +126,8 @@ void plotAnalyseGRASP(
 void plotCPUt(
         std::vector<std::string> fnames,
         std::vector<float> tMoy,
-        std::string save_path) {
+        std::string save_path,
+        bool silent_mode) {
     int n;
     for(n = 0; n < (int)fnames.size(); n++) {
         for(int i = 0; i < (int)fnames[n].size(); i++) {
@@ -160,7 +162,7 @@ void plotCPUt(
     .display_name("tMoy");
     matplot::legend()
         ->location(matplot::legend::general_alignment::bottomright);
-    fig->draw();
+    if(!silent_mode) fig->draw();
     if(sp) {
         tMoy[0] = tMoy[1], tMoy.pop_back(), tMoy.pop_back();
         fnames[0] = fnames[1], fnames.pop_back(), fnames.pop_back();
