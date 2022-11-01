@@ -12,8 +12,8 @@
 #define MAX_THREADS     10
 
 // Paramètres GRASP
-#define ALPHA           0.7
-#define NUM_RUN         1
+#define ALPHA           0.8
+#define NUM_RUN         20
 #define NUM_ITER        200
 #define NUM_DIVISION    20
 #define DEEPSEARCH      false
@@ -74,6 +74,8 @@ int main() {
             matplot::linspace(1, NUM_ITER, _NBD_),
             [](double x) {return (int)x;});
         if(NUM_ITER-1 <= 1) divs[0] = 1;
+    #else
+        float tt(0.f);;
     #endif
 
     std::vector<std::string> fnames = getfname(path);
