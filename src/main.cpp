@@ -12,8 +12,8 @@
 #define MAX_THREADS     10
 
 // Paramètres GRASP
-#define ALPHA           0.8
-#define NUM_RUN         20
+#define ALPHA           0.7
+#define NUM_RUN         1
 #define NUM_ITER        200
 #define NUM_DIVISION    20
 #define DEEPSEARCH      false

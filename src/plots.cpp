@@ -12,7 +12,7 @@ void plotRunGRASP(
     std::string ins(instance);
     for(i = 0; i < (int)ins.size(); i++) {
         if(ins[i] == '_')
-            ins_i = i, ins.replace(i, 1, "＿");
+            ins_i = i, ins.replace(i, 1,  "\\\\\\_"), i+=4;
         if(ins[i] == '.')
             ins = ins.substr(0, i);
     }
@@ -60,7 +60,7 @@ void plotRunGRASP(
     matplot::legend()
         ->location(matplot::legend::general_alignment::bottomright);
     if(!silent_mode) fig->draw();
-    if(ins_i != -1) ins.replace(ins_i, 3, "_");
+    if(ins_i != -1) ins.replace(ins_i, 4, "_");
     if(save_path.compare(""))
         matplot::save(save_path + "run_" + ins + ".png");
 }
@@ -77,7 +77,7 @@ void plotAnalyseGRASP(
     std::string ins(instance);
     for(int i = 0; i < (int)ins.size(); i++) {
         if(ins[i] == '_')
-            ins_i = i, ins.replace(i, 1, "＿");
+            ins_i = i, ins.replace(i, 1,  "\\\\\\_"), i+=4;
         if(ins[i] == '.')
             ins = ins.substr(0, i);
     }
@@ -118,7 +118,7 @@ void plotAnalyseGRASP(
     matplot::legend()
         ->location(matplot::legend::general_alignment::bottomright);
     if(!silent_mode) fig->draw();
-    if(ins_i != -1) ins.replace(ins_i, 3, "_");
+    if(ins_i != -1) ins.replace(ins_i, 4, "_");
     if(save_path.compare(""))
         matplot::save(save_path + "analyse_" + ins + ".png");
 }
@@ -132,7 +132,7 @@ void plotCPUt(
     for(n = 0; n < (int)fnames.size(); n++) {
         for(int i = 0; i < (int)fnames[n].size(); i++) {
             if(fnames[n][i] == '_')
-                fnames[n].replace(i, 1, "＿");
+                fnames[n].replace(i, 1,  "\\\\\\_"), i+=4;
             if(fnames[n][i] == '.')
                 fnames[n] = fnames[n].substr(0, i);
         }
