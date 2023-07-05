@@ -1,8 +1,5 @@
 # graspSPP_cpp
 GRASP pour le Set Packing Problem (SPP)
-<p align="center">
-  <img src="GRASP.png">
-</p>
 
 *Commande pour compiler*:
 

@@ -8,37 +8,37 @@
 
 // Greedy construction of a feasible solution
 std::tuple<char*, int, char*> GreedyRandomized(
-        int m,
-        int n,
-        const int* C,
-        const char* A,
-        const float* U,
-        const float alpha);
+    int m,
+    int n,
+    const int* C,
+    const char* A,
+    const float* U,
+    const float alpha);
 
 // Greedy improvement of a feasible solution through (deep) local search
 void GreedyImprovement(
-        int m,
-        int n,
-        const int* C,
-        const char* A,
-        char* x,
-        int z,
-        bool deep = true,
-        char* column = nullptr);
+    int m,
+    int n,
+    const int* C,
+    const char* A,
+    char* x,
+    int z,
+    bool deep = true,
+    char* column = nullptr);
 
 // GRASP for the Set Packing Problem
 void GRASP(
-        int m,
-        int n,
-        const int* C,
-        const char* A,
-        const float* U,
-        std::vector<int>& zInits,
-        std::vector<int>& zAmels,
-        std::vector<int>& zBests,
-        const float alpha,
-        int nbIter = 100,
-        bool deep = true,
-        bool parallel = true);
+    int m,
+    int n,
+    const int* C,
+    const char* A,
+    const float* U,
+    std::vector<int>& zInits,
+    std::vector<int>& zAmels,
+    std::vector<int>& zBests,
+    const float alpha,
+    int nbIter = 100,
+    bool deep = true,
+    bool parallel = true);
 
 #endif /* end of include guard: HEURISTICS_H */
